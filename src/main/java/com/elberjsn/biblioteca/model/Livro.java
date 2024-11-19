@@ -1,5 +1,6 @@
 package com.elberjsn.biblioteca.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +17,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Livro {
-
+public class Livro implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -73,6 +74,14 @@ public class Livro {
             return false;
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Livro [id=" + id + ", titulo=" + titulo + ", autor=" + autor + ", isbn=" + isbn + ", anoPublicacao="
+                + anoPublicacao + ", qtdDisponivel=" + qtdDisponivel + "]";
+    }
+
+    
 
     
 
