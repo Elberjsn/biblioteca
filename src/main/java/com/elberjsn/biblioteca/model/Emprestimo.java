@@ -1,5 +1,6 @@
 package com.elberjsn.biblioteca.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import jakarta.persistence.Entity;
@@ -15,13 +16,13 @@ import lombok.Setter;
 @Setter
 
 public class Emprestimo {
-
+  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date dtEmprestimo;
-    private Date dtDevolucao;
-    private String status;
+    private LocalDate dtEmprestimo;
+    private LocalDate dtDevolucao;
+    private StatusEmpretimo status;
 
     @ManyToOne
     @JoinColumn(name = "usuario_emprestimo")
