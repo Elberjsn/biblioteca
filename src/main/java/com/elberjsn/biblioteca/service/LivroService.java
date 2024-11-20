@@ -24,13 +24,13 @@ public class LivroService {
     public Optional<Livro> buscarLivroId(Long id){
         return livroRepository.findById(id);
     }
-    public Optional<Livro> buscarLivroNome(String nome){
+    public List<Livro> buscarLivroNome(String nome){
         return livroRepository.findByNomeLivro(nome);
     }
-    public Optional<Livro> buscarLivroIsbn(String isbn){
+    public List<Livro> buscarLivroIsbn(String isbn){
         return livroRepository.findByIsbn(isbn);
     }
-    public Optional<Livro> buscarLivroAutor(String autor){
+    public List<Livro> buscarLivroAutor(String autor){
         return livroRepository.findByAutor(autor);
     }
     public void apagarLivro(Livro livro){
