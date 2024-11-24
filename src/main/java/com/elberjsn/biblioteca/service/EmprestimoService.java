@@ -16,6 +16,12 @@ public class EmprestimoService {
     
     @Autowired
     EmprestimoRepository emprestimoRepository;
+
+    @Autowired
+    UsuarioService usuarioS;
+
+    @Autowired
+    LivroService livroS;
     
     
     public List<Emprestimo> buscaEmprestimos(){
@@ -26,12 +32,18 @@ public class EmprestimoService {
         return emprestimoRepository.findById(id).get();
     }
 
-    public List<Emprestimo> buscarPorUsuario(Long idUser){
-        return emprestimoRepository.findByUsuarioContaining(idUser);
+    public List<Emprestimo> buscarPorUsuarioId(Long idUser){
+        return emprestimoRepository.findByUsuarioId(usuarioS.buscarPorId(idUser).getId());
+    }
+    public List<Emprestimo> buscarPorUsuarioNome(String nome){
+        return emprestimoRepository.findByUsuarioNomeContaining(nome);
     }
 
-    public List<Emprestimo> buscarPorLivro(Long idLivro){
-        return emprestimoRepository.findByLivroContaining(idLivro);
+    public List<Emprestimo> buscarPorLivroId(Long idLivro){
+        return emprestimoRepository.findByLivroId(livroS.buscarLivroId(idLivro).get().getId());
+    }
+    public List<Emprestimo> buscarPorLivro(String titulo){
+        return emprestimoRepository.findByLivroTituloContaining(titulo);
     }
 
     public Emprestimo editarEmprestimo(Emprestimo emp){
@@ -62,7 +74,7 @@ public class EmprestimoService {
     }
 
     public Boolean verificaAtraso(Usuario user){
-        List<Emprestimo> emps = buscarPorUsuario(user.getId());
+        List<Emprestimo> emps = buscarPorUsuarioId(user.getId());
         
         for (Emprestimo emprestimo : emps) {
                 if (emprestimo.getStatus().equals(StatusEmpretimo.ATRASADO)) {
@@ -70,6 +82,18 @@ public class EmprestimoService {
                 }
         }
         return false;
+
+    }
+
+    public Boolean deletarEmprestimo(Long id){
+        Emprestimo emp = buscarPorId(id);
+        emp.setStatus(StatusEmpretimo.DELETADO);
+        emp = emprestimoRepository.save(emp);
+        if (emp.getStatus().equals(StatusEmpretimo.DELETADO)) {
+            return true;
+        }else{
+            return false;
+        }
 
     }
 

@@ -7,11 +7,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.elberjsn.biblioteca.model.Administrador;
+import com.elberjsn.biblioteca.model.Emprestimo;
 import com.elberjsn.biblioteca.model.Livro;
 import com.elberjsn.biblioteca.model.Usuario;
 import com.elberjsn.biblioteca.repository.AdministradorRepository;
 import com.elberjsn.biblioteca.repository.LivroRepository;
 import com.elberjsn.biblioteca.repository.UsuarioRepository;
+import com.elberjsn.biblioteca.service.EmprestimoService;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -24,6 +26,9 @@ public class DataLoader implements CommandLineRunner {
 
     @Autowired
     private AdministradorRepository administradorRepository;
+
+    @Autowired
+    private EmprestimoService emprestimoService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -38,5 +43,10 @@ public class DataLoader implements CommandLineRunner {
         Administrador adm = new Administrador(null, "testeadm", "testeadm@adm", "adm");
         administradorRepository.save(adm);
 
+        Emprestimo emp=new Emprestimo(null, null, null, null, usuario2, livro2);
+        Emprestimo emp2=new Emprestimo(null, null, null, null, usuario1, livro2);
+
+        emprestimoService.novoEmprestimo(emp);
+        emprestimoService.novoEmprestimo(emp2);
     }
 }
