@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.elberjsn.biblioteca.model.Emprestimo;
 import com.elberjsn.biblioteca.model.StatusEmpretimo;
+import com.elberjsn.biblioteca.model.Usuario;
 import com.elberjsn.biblioteca.repository.EmprestimoRepository;
 
 @Service
@@ -20,10 +21,18 @@ public class EmprestimoService {
     public List<Emprestimo> buscaEmprestimos(){
         return emprestimoRepository.findAll();
     }
+    
     public Emprestimo buscarPorId(Long id){
         return emprestimoRepository.findById(id).get();
     }
-    
+
+    public List<Emprestimo> buscarPorUsuario(Long idUser){
+        return emprestimoRepository.findByUsuarioContaining(idUser);
+    }
+
+    public List<Emprestimo> buscarPorLivro(Long idLivro){
+        return emprestimoRepository.findByLivroContaining(idLivro);
+    }
 
     public Emprestimo editarEmprestimo(Emprestimo emp){
         Emprestimo emprestimo = buscarPorId(emp.getId());
@@ -50,6 +59,18 @@ public class EmprestimoService {
         emp.setStatus(StatusEmpretimo.ATIVO);
 
         return emprestimoRepository.save(emp);
+    }
+
+    public Boolean verificaAtraso(Usuario user){
+        List<Emprestimo> emps = buscarPorUsuario(user.getId());
+        
+        for (Emprestimo emprestimo : emps) {
+                if (emprestimo.getStatus().equals(StatusEmpretimo.ATRASADO)) {
+                    return true;            
+                }
+        }
+        return false;
+
     }
 
 }

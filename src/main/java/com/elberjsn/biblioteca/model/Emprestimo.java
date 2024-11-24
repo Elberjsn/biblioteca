@@ -34,13 +34,13 @@ public class Emprestimo implements Serializable{
 
     @ManyToOne
     @JoinColumn(name = "usuario_emprestimo")
-    @NotNull(message ="O campo não pode ser Vazio!")
+    @NotNull(message ="O campo usuario não pode ser Vazio!")
     private Usuario usuario;
 
 
     @ManyToOne
     @JoinColumn(name = "livro_emprestimo")
-    @NotNull(message ="O campo não pode ser Vazio!")
+    @NotNull(message ="O campo livro não pode ser Vazio!")
     private Livro livro;
     
 }
