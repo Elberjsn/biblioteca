@@ -6,43 +6,50 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+
 public class Livro implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull(message ="O campo não pode ser Vazio!")
     private String titulo;
+    @NotNull(message ="O campo não pode ser Vazio!")
     private String autor;
+    @NotNull(message ="O campo não pode ser Vazio!")
+    @Column(unique = true)
     private String isbn;
+    @NotNull(message ="O campo não pode ser Vazio!")
     private Integer anoPublicacao;
+    @NotNull(message ="O campo não pode ser Vazio!")
     private Integer qtdDisponivel;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "emprestimo_livro")
-    private List<Emprestimo> emprestimo_livro = new ArrayList<>();
+    @OneToMany(mappedBy = "livro")
+    private List<Emprestimo> livro_emprestimo = new ArrayList<>();
 
 
-    public Livro(){}
-
-    public Livro(Long id, String titulo, String autor, String isbn, Integer anoPublicacao, Integer qtdDisponivel) {
-        this.id = id;
-        this.titulo = titulo;
-        this.autor = autor;
-        this.isbn = isbn;
-        this.anoPublicacao = anoPublicacao;
-        this.qtdDisponivel = qtdDisponivel;
-    }
+    
 
     @Override
     public int hashCode() {
@@ -75,11 +82,6 @@ public class Livro implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "Livro [id=" + id + ", titulo=" + titulo + ", autor=" + autor + ", isbn=" + isbn + ", anoPublicacao="
-                + anoPublicacao + ", qtdDisponivel=" + qtdDisponivel + "]";
-    }
 
     
 

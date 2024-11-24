@@ -1,38 +1,55 @@
 package com.elberjsn.biblioteca.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @Entity
-public class Usuario {
+@NoArgsConstructor
+@ToString
+
+public class Usuario implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @NotNull(message ="O campo não pode ser Vazio!")
     private String nome;
+    @NotNull(message ="O campo não pode ser Vazio!")
     private String email;
+    @NotNull(message ="O campo não pode ser Vazio!")
     private String telefone;
+    @NotNull(message ="O campo não pode ser Vazio!")
+    @Column(unique = true )
     private String cpf;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "usuario_emprestimo")
+
+    @OneToMany(mappedBy = "usuario")
     private List<Emprestimo> usuario_emprestimo = new ArrayList<>();
 
 
-    public Usuario(){}
-    
-    public Usuario(Long id, String nome, String email, String telefone, String cpf) {
+   
+
+    public Usuario(Long id,String nome, String email,String telefone,String cpf) {
         this.id = id;
         this.nome = nome;
         this.email = email;

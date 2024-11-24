@@ -23,17 +23,14 @@ public class EmprestimoService {
     public Emprestimo buscarPorId(Long id){
         return emprestimoRepository.findById(id).get();
     }
-    public List<Emprestimo> buscarEmprestimosPorUsuario(Long id){
-        UsuarioService user= new UsuarioService();
-        return emprestimoRepository.findByUsuario_emprestimo(user.buscarID(id));
-    }
+    
 
     public Emprestimo editarEmprestimo(Emprestimo emp){
         Emprestimo emprestimo = buscarPorId(emp.getId());
 
         emprestimo.setDtDevolucao(emp.getDtDevolucao());
         emprestimo.setStatus(emp.getStatus());
-        emprestimo.setUsuario_emprestimo(emp.getUsuario_emprestimo());
+        emprestimo.setUsuario(emp.getUsuario());
 
         return emprestimoRepository.save(emprestimo);
     }
@@ -46,6 +43,7 @@ public class EmprestimoService {
     }
 
     public Emprestimo novoEmprestimo(Emprestimo emp){
+
         LocalDate dataInicial = LocalDate.now();
         emp.setDtEmprestimo(dataInicial);
         emp.setDtDevolucao(dataInicial.plusDays(7));

@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import com.elberjsn.biblioteca.model.Administrador;
 import com.elberjsn.biblioteca.model.Livro;
 import com.elberjsn.biblioteca.model.Usuario;
+import com.elberjsn.biblioteca.repository.AdministradorRepository;
 import com.elberjsn.biblioteca.repository.LivroRepository;
 import com.elberjsn.biblioteca.repository.UsuarioRepository;
 
@@ -20,13 +22,21 @@ public class DataLoader implements CommandLineRunner {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private AdministradorRepository administradorRepository;
+
     @Override
     public void run(String... args) throws Exception {
-        Livro livro1 = new Livro(null, "1984", "George Orwell", "9780451524935", 1949, 3);
-        Livro livro2 = new Livro(null, "A Revolução dos Bichos", "George Orwell", "9780451526342", 1945, 4);
+        Livro livro1 = new Livro(null, "1984", "George Orwell", "9780451524935", 1949, 3, null);
+        Livro livro2 = new Livro(null, "A Revolução dos Bichos", "George Orwell", "9780451526342", 1945, 4, null);
         livroRepository.saveAll(List.of(livro1, livro2));
 
-        Usuario usuario = new Usuario(null, "Maria Oliveira", "maria@email.com", "1199999999", "98765432100");
-        usuarioRepository.save(usuario);
+        Usuario usuario1 = new Usuario(null, "Maria Oliveira", "maria@email.com", "1199999999", "98765432100");
+        Usuario usuario2 = new Usuario(null, "Maria Oliveira", "Oliveira@email.com", "1199899999", "88765432100");
+        usuarioRepository.saveAll(List.of(usuario1,usuario2));
+        
+        Administrador adm = new Administrador(null, "testeadm", "testeadm@adm", "adm");
+        administradorRepository.save(adm);
+
     }
 }
